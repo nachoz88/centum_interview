@@ -25,12 +25,12 @@
                                   <th scope="row">{{$team->id}}</th>
                                   <td>{{ $team->teamname }}</td>
                                     <td>
-                                      <input type="checkbox" name="teams[]" value="{{$team->id}}">
+                                      <input id="sel" type="checkbox" name="teams[]" value="{{$team->id}}">
                                     </td>
                                 </tr>
                                 @endforeach
                             </div>
-                            <input type="submit" class="btn btn-primary" value="Place your bet">
+                            <input type="submit" id="submit" class="btn btn-primary" value="Place your bet" disabled>
                         </form>
                       </tbody>
                     </table>
@@ -38,5 +38,21 @@
             </div>
         </div>
     </div>
+    
+<script type='text/javascript'>
+  var checkedBox = document.getElementById("sel");
+  checkedBox.addEventListener("change", doSomething, false);
+  
+  function doSomething(){
+    var isChecked = checkedBox.checked;
+    if(isChecked){
+      document.getElementById("submit").removeAttribute("disabled");
+    }else{
+      document.getElementById("submit").setAttribute("disabled");
+    }
+  }
+
+</script>
+    
 </div>
 @endsection

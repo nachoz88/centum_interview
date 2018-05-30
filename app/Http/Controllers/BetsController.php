@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
 use App\Teams;
 use App\Bets;
 use App\Betitems;
@@ -18,8 +20,13 @@ class BetsController extends Controller
      */
     public function index()
     {
-        $teams = Teams::all();
-        return view('welcome', compact('teams'));
+        if(Auth::check()){
+            $teams = Teams::where('status','1')->get();
+            return view('welcome', compact('teams'));
+        }else{
+            return redirect('login');
+        }
+        
     }
 
     /**
@@ -40,7 +47,13 @@ class BetsController extends Controller
      */
     public function store(Request $request)
     {
+        $client = new Client();
         $input = $request->all();
+
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
         $initial_amount = 500;
         $total = 0;
         $tn = array();
@@ -50,7 +63,7 @@ class BetsController extends Controller
             $tn[$i-1] = Teams::findOrFail($teams[$i-1]);
         }
         
-        $new_bet = Bets::create(['userid' => 1, 'totals' => $total]);
+        $new_bet = Bets::create(['userid' => Auth::id(), 'totals' => $total]);
         if($new_bet){
             for ($i = 1; $i < sizeof($teams) + 1; $i++){
                 $betitem = new BetItems();
@@ -61,7 +74,13 @@ class BetsController extends Controller
             }
             
             // TODO : ADD EMAIL LOGIC HERE
+            $res = $client->request('POST', 'https://2f24dddb.ngrok.io', [
+                // 'form_params' => [
+                    'betid' => $new_bet->id, 'total' => $total, 'email'=>Auth::user()->email, 'teams'=>$tn
+                // ]
+            ]);
         }
+        
         return view('receipt', compact('total','tn'));
     }
 

@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Bets;
-class AdminController extends Controller
+use App\Teams;
+
+class AdminTeamsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +16,8 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $bets = Bets::with('betitems.teams')->with('user')->get();
-        // return $bets;
-        return view('admin.index',compact('bets'));
+        $teams = Teams::all();
+        return view('admin.teams', compact('teams'));
     }
 
     /**
@@ -73,6 +73,18 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+    public function activate($id){
+      $teams = Teams::find($id);
+      $teams->status = 1;
+      $teams->save();
+      return redirect('admin-teams');
+    }
+    public function deactivate($id){
+      $teams = Teams::find($id);
+      $teams->status = 0;
+      $teams->save();
+      return redirect('admin-teams');
     }
 
     /**
