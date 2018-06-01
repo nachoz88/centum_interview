@@ -21,17 +21,17 @@
                             <td>{{$bet->user->email}}</td>
                             <td>{{$bet->id}}</td>
                             <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter{{$bet->id}}">
                                   More...
                                 </button>
                             </td>
                     
                             <!-- Modal -->
-                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal fade" id="exampleModalCenter{{$bet->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle{{$bet->id}}" aria-hidden="true">
                               <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                   <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalCenterTitle">Selected Teams</h5>
+                                    <h5 class="modal-title" id="exampleModalCenterTitle{{$bet->id}}">Selected Teams</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                       <span aria-hidden="true">&times;</span>
                                     </button>
@@ -42,7 +42,11 @@
                                                 <li>
                                                     {{$betitem->teams->teamname}} at {{$betitem->amounts}}
                                                 </li>
+                                                
                                             @endforeach
+                                                <li>
+                                                    Total price : {{$bet->totals}}
+                                                </li>
                                         </ul>
                                   </div>
                                   <div class="modal-footer">

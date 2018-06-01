@@ -13,7 +13,7 @@
             @endforeach
             </ul>
         </p>
-        <h5>Total : 2000</h5>
+        <h5>Total : {{$total}}</h5>
       </div>
     </main>
 </div>

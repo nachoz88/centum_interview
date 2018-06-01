@@ -74,11 +74,11 @@ class BetsController extends Controller
             }
             
             // TODO : ADD EMAIL LOGIC HERE
-            $res = $client->request('POST', 'https://2f24dddb.ngrok.io', [
-                // 'form_params' => [
-                    'betid' => $new_bet->id, 'total' => $total, 'email'=>Auth::user()->email, 'teams'=>$tn
-                // ]
-            ]);
+            // $res = $client->request('POST', 'https://2f24dddb.ngrok.io', [
+            //     // 'form_params' => [
+            //         'betid' => $new_bet->id, 'total' => $total, 'email'=>Auth::user()->email, 'teams'=>$tn
+            //     // ]
+            // ]);
         }
         
         return view('receipt', compact('total','tn'));

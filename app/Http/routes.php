@@ -16,7 +16,7 @@ Route::resource('/', 'BetsController');
 // Route::resource('/', 'Auth\AuthController@__construct');
 
 Route::auth();
-
+Route::get('/send', 'EmailController@send');
 Route::resource('/admin', 'AdminController');
 Route::resource('/admin-teams', 'AdminTeamsController');
 Route::get('/admin-teams-deactivate/{id}', 'AdminTeamsController@deactivate');
